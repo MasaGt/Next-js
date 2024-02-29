@@ -50,3 +50,29 @@ npx ceate-next-app <app_name>
 # typescriptベースのプロジェクトを作成したい場合
 npx ceate-next-app <app_name> --typescript
 ```
+
+---
+
+### サーバーの起動
+
+- Next.js プロジェクトを作成した時にインストールされる next モジュールに開発サーバーを立てる機能がついている
+
+- package.json の scripts 項目を見ると　dev　で開発サーバーを起動できることがわかる
+
+```json
+  "scripts": {
+    "build": "next build",
+    // ↓これ
+    "dev": "next dev",
+    "prettier": "prettier --write --ignore-unknown .",
+    "prettier:check": "prettier --check --ignore-unknown .",
+    "start": "next start"
+  },
+```
+
+```bash
+# 開発サーバー起動
+npm run dev
+```
+
+- サーバー起動後はポート3000でアクセスを受け付ける
