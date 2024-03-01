@@ -1,0 +1,6 @@
+/* カスタムフォントのサンプル */
+
+.font {
+  font-family: var(--roboto-font);
+  font-style: italic;
+}
