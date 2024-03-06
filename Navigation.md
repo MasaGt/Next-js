@@ -44,7 +44,7 @@ export default Page;
 例: /about ページに /home へ遷移するボタンを配置する
 ```ts
 // app/about/page.tsx
-import Link from 'next.link';
+import Link from 'next/link';
 
 const Page = () => {
     return (
