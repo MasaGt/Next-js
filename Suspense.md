@@ -52,3 +52,94 @@ const Page = () => {
 export default Page;
 ```
 
+---
+
+### Suspense の boundary　を決める
+
+- どの範囲をSuspenseで囲むかによってパフォーマンスが変化する
+
+- どれの範囲を選択するかは、プロジェクトで共通のルールを決めたりするなどする(どれが正解とかはない)
+
+<br>
+
+例: 複数の動的コンポーネントを一つの Suspense で囲む
+
+- Suspense で囲まれた全ての動的コンポーネントのデータ取得が終わるまで、Suspense で囲まれた部分は描画されない
+
+```ts
+// Page.tsx
+const Page = () => {
+    return (
+        <>
+            <Suspense
+                fallback={<Placeholder />}
+            >
+                <DataFetchComponent1 />
+                <DataFetchComponent2 />
+                <DataFetchComponent3 />
+            </Suspense>
+        </>
+    );
+};
+export default Page;
+```
+
+<br>
+
+例: 各々の動的コンポーネントを Suspense で囲む
+
+- データ取得が完了したコンポーネントから描画されていく
+
+```ts
+// Page.tsx
+const Page = () => {
+    return (
+        <>
+            <Suspense
+                fallback={<Placeholder />}
+            >
+                <DataFetchComponent1 />
+            </Suspense>
+
+            <Suspense
+                fallback={<Placeholder />}
+            >
+                <DataFetchComponent2 />
+            </Suspense>
+
+            <Suspense
+                fallback={<Placeholder />}
+            >
+                <DataFetchComponent3 />
+            </Suspense>
+        </>
+    );
+};
+export default Page;
+```
+
+<br>
+
+例: ページ全体を Suspense で囲む
+
+- 全ての動的コンポーネントのデータ取得が完了するまで、描画が始まらない (fallback を除いて)
+
+```ts
+// Page.tsx
+const Page = () => {
+    return (
+        <>
+            <Suspense
+                fallback={<Placeholder />}
+            >
+                <StaticComponent1 />
+                <DataFetchComponent1 />
+                <DataFetchComponent2 />
+                <DataFetchComponent3 />
+                <StaticComponent2 />
+            </Suspense>
+        </>
+    );
+};
+export default Page;
+```
