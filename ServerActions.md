@@ -62,11 +62,11 @@ export ClientComponent;
 
 button の formAction 属性に渡す方法  
 
-    - button は必ず form タグに囲まれていること
+- button は必ず form タグに囲まれていること
 
-    - この時、 button は type="subit" が指定されているか、 なんの type も指定されていないこと
+- この時、 button は type="subit" が指定されているか、 なんの type も指定されていないこと
 
-    - type="button" や type="reset" が指定されていると Server Actions 関数は動かない
+- type="button" や type="reset" が指定されていると Server Actions 関数は動かない
 
 
 ```ts
@@ -290,7 +290,7 @@ const ClientComponent = () => {
             setUsers(data);
         }
         updateUsers();
-    }.[]);
+    }, []);
 }
 ```
 
@@ -313,17 +313,17 @@ Server Actions に置き換えることでデータ取得の処理を分離で�
 <br>
 
 ```ts
-// app/blog/post コンポーネントのキャッシュデータを削除し、次回アクセス時に最新データを取得するように設定する
+// app/blog/post ページのキャッシュデータを削除し、次回アクセス時に最新データを取得するように設定する
 import { revalidatePath } from 'next/cache'
 revalidatePath('/blog/post');
 ```
 
 <br>
 
-- 全コンポーネント/ページのキャッシュを削除する場合、 revalidatePath にルートパス ('/') を渡す
+- 全ページのキャッシュを削除する場合、 revalidatePath にルートパス ('/') を渡す
 
 ```ts
 import { revalidatePath } from 'next/cache'
-revalidatePath('');
+revalidatePath('/');
 ```
 
