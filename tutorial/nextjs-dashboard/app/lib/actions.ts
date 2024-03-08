@@ -14,8 +14,10 @@ const FormSchema = z.object({
   date: z.string(),
 });
 
-// the object that omit id and date attributes from SchemaObject
+// the object that omits id and date attributes from SchemaObject
 const CreateInvoice = FormSchema.omit({ id: true, date: true });
+// the object that omits some props from FromSchema for invoice update
+const UpdateInvoice = FormSchema.omit({ id: true, date: true });
 
 export async function createInvoice(formData: FormData) {
   // validate vals from form for inserting data
@@ -30,6 +32,30 @@ export async function createInvoice(formData: FormData) {
   await sql`
     INSERT INTO invoices (customer_id, amount, status, date)
     VALUES (${customerId}, ${amountInCents}, ${status}, ${date})
+  `;
+
+  revalidatePath('/dashboard/invoices');
+  redirect('/dashboard/invoices');
+}
+
+/**
+ * update invoice info
+ * @param id invoice id
+ * @param formData
+ */
+export async function updateInvoice(id: string, formData: FormData) {
+  const { customerId, amount, status } = UpdateInvoice.parse({
+    customerId: formData.get('customerId'),
+    amount: formData.get('amount'),
+    status: formData.get('status'),
+  });
+
+  const amountInCents = amount * 100;
+
+  await sql`
+    UPDATE invoices
+    SET customer_id = ${customerId}, amount = ${amountInCents}, status = ${status}
+    WHERE id = ${id}
   `;
 
   revalidatePath('/dashboard/invoices');
