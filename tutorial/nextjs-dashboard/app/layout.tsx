@@ -1,6 +1,12 @@
 import '@/app/ui/global.css';
 import { inter, roboto } from './ui/fonts';
 import style from './ui/font.module.css';
+import { Metadata } from 'next';
+
+export const metadata = {
+  title: 'Acme Dashboard',
+  description: 'The official Next.js Course Dashboard, built with App Router.',
+} satisfies Metadata;
 
 export default function RootLayout({
   children,
