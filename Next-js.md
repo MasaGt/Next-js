@@ -45,10 +45,10 @@
 - React のプロジェクト作成の時のように npx コマンドを叩く
 
 ```bash
-npx ceate-next-app <app_name>
+npx create-next-app <app_name>
 
 # typescriptベースのプロジェクトを作成したい場合
-npx ceate-next-app <app_name> --typescript
+npx create-next-app <app_name> --typescript
 ```
 
 ---
