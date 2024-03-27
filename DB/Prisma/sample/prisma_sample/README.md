@@ -29,7 +29,13 @@ MYSQL_PASSWORD=your_user_password
 docker compose up -d
 ```
 
-4. run Next.js project
+4. migrate prisma.schema
+
+```bash
+npx prisma migrate dev --name init
+```
+
+5. run Next.js project
 
 ```bash
 npm run dev
