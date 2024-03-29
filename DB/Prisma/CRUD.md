@@ -232,7 +232,7 @@ const result = await prisma.user.update({
 
 - updateMany()
     - 引数: where: { 条件 }, data: { 更新データ }
-    - 戻り値: 更新されたデータ
+    - 戻り値: 更新件数
 
 ```ts
 const result = await prisma.user.updateMany({
@@ -276,6 +276,81 @@ const result = await prisma.user.upsert({
 ---
 
 ### Delete (データ削除)
+
+### 1件削除
+
+- delete()
+    - 引数: where: { 条件 }
+    - 戻り値: 削除したデータ
+
+```ts
+const result = await prisma.user.delete({
+    where: {
+        id: 1,
+    },
+});
+```
+
+<br>
+
+### 複数件削除
+
+- deleteMany()
+    - 引数: where: { 条件 }
+    - 戻り値: 削除件数
+    - 引数にからのオブジェクトを渡すと全件削除
+
+```ts
+const result = await prisma.user.deleteMany({
+    where: {
+        name: {
+            contains: "a",
+        },
+    },
+});
+
+// 全件削除
+const result = await prisma.user.deleteMany({});
+```
+
+<br>
+
+### Cascading delete
+
+以下のような one to many の User と Post テーブルがある
+
+<img src="../../img/one_many2.png" />
+
+このとき、<font color="red">削除しようとする User に Post が1件でも紐づいていれば</font>、 delete~ メソッドはエラーになる
+
+```ts
+// id=1 の User は Post を1件以上持っている場合
+// -> error
+const result = await prisma.user.delete({
+    where: {
+        id: 1,
+    }
+});
+```
+
+<br>
+
+User を削除する際に、それに紐づいている Post のデータも削除したい (Cascading Delete) 場合、　model の @relation の定義に <font color="orange"> onDelete: Cascade </font>を渡す必要がある
+
+```ts
+// prisma.schema
+model User {
+    id Int @id @default(autoincrement())
+    name String
+    posts Post[]
+}
+
+model Post {
+    // Userはoptional/mandatoryどっちでもいい
+    user User(?) @relation(fields: [userID], references: [id], onDelete: Cascade)
+    userID Int
+}
+```
 
 ---
 
