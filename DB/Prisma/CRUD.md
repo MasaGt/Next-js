@@ -208,6 +208,71 @@ WHERE name = "john";
 
 ### Update (データ更新)
 
+### 1件更新
+
+- update()
+    - 引数: where: { 条件 }, data: { 更新データ }
+    - 戻り値: 更新されたデータ
+
+```ts
+const result = await prisma.user.update({
+    where: {
+        id: 10,
+    },
+    data: {
+        name: "update_user",
+        email: "update_email@prisma.io",
+    },
+});
+```
+
+<br>
+
+### 複数件更新
+
+- updateMany()
+    - 引数: where: { 条件 }, data: { 更新データ }
+    - 戻り値: 更新されたデータ
+
+```ts
+const result = await prisma.user.updateMany({
+    where: {
+        name: {
+            contains: "A",
+        },
+    },
+    data: {
+        email: "name_contains_A@prisma.io",
+    },
+});
+```
+
+<br>
+
+### 更新(もし条件にマッチするレコードがなかったら新規登録)
+
+- upsret()
+    - 引数: where: { 条件 }, update: { 更新データ }, create: { 新規登録するデータ }
+    - 戻り値: 更新 | 登録されたデータ
+    - <font color="red">where で指定できるのは、 (@)@id か (@)@unique 項目のみ</font>
+
+```ts
+const result = await prisma.user.upsert({
+    where: {
+        email: {
+            contains: "AAA"
+        },
+    },
+    update: { // 更新する場合のデータ
+        name: "AAA",
+    },
+    create: { // 登録する場合のデータ
+        name: "AAA",
+        email: "AAA@prisma.io"
+    }
+});
+```
+
 ---
 
 ### Delete (データ削除)
