@@ -93,9 +93,9 @@ model Many {
 
 ### 1対1のリレーション (one to one)
 
-### mandatory one to one
+### one to one (one side mandatory)
 
-\***お互いに必ず紐づく1件が存在すること**
+\**optional に紐づく mandatory が1件は必ず存在する**
 
 <img src="../../img/one_one1.png" />
 
@@ -113,7 +113,7 @@ model Profile {
     birthday DateTime
     address String
     user User @relation(fields: [userID], references: [id])
-    userID Int
+    userID Int @unique
 }
 ```
 
@@ -139,9 +139,15 @@ model Profile {
     birthday DateTime
     address String
     user User? @relation(fields: [userID], references: [id])
-    userID Int
+    userID Int @unique
 }
 ```
+
+<br>
+
+### 両方 mandatory は定義できない
+
+<img src="../../img/one_one3.png" />
 
 <br>
 
