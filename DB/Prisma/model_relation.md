@@ -237,3 +237,30 @@ model Tag {
 -> "1またはそれ以上"の多のリレーションは設定できない
 
 <img src="../../img/relation_tips.png" />
+
+---
+
+### one to one のリレーションに関して
+
+以下のような関係のテーブルも作成可能
+
+- Profile の主キーが外部キーの userID
+
+<img src="../../img/one_one4.png" />
+
+```
+// prisma.schema
+
+model User {
+    id Int @id @default(autoincrement())
+    name String
+    profile Profile?
+}
+
+model Profile {
+    user User @relation(fields: [userID], references:[id])
+    userID Int @id
+    birthday DateTime
+    address String
+}
+```
